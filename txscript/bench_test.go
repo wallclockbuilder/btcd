@@ -42,12 +42,13 @@ func BenchmarkSigCacheAdd(b *testing.B) {
 	}
 }
 
-// Optimized implementation suggested by jrick
-// func BenchmarkSigCacheAddV1(b *testing.B) {
-// 	sigCache := NewSigCacheV2(200)
-//
-// 	b.ResetTimer()
-// 	for n := 0; n < b.N; n++ {
-// 		sigCache.Add(sigHash, sig, pubKey)
-// 	}
-// }
+// Optimized sigCache implementation suggested by jrick
+func BenchmarkSigCachev2Add(b *testing.B) {
+	sigCache := NewSigCachev2(200)
+	sigEntry := NewSigEntry(sigHash, sig, pubKey)
+	b.ResetTimer()
+
+	for n := 0; n < b.N; n++ {
+		sigCache.Add(sigEntry)
+	}
+}
